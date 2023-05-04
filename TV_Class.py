@@ -1,65 +1,130 @@
-class Television:
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+import sys
+from TV_Window import *
+
+class Controller(QMainWindow, Ui_MainWindow):
+
     min_volume = 0
     max_volume = 2
     min_channel = 0
     max_channel = 3
 
-    def __init__(self, status = False, muted = False, volume = min_volume, channel = min_channel):
 
-        self.__status = status
-        self.__muted = muted
-        self.__volume = volume
-        self.__channel = channel
+    def __init__(self, status=False, muted=False, volume=min_volume, channel=min_channel, *args, **kargs):
+        self.status = status
+        self.muted = muted
+        self.volume = volume
+        self.channel = channel
 
-    def power(self): #used to turn tv on and off via status variable
-        if self.__status == True:
-            self.__status = False
+        super().__init__(*args, **kargs)
+        self.setupUi(self)
 
-        else:
-            self.__status = True
+        self.PowerButton.clicked.connect(lambda: self.power())
+        self.Vol_Up.clicked.connect(lambda: self.volume_up())
+        self.Vol_Down.clicked.connect(lambda: self.volume_down())
+        self.Channel_Up.clicked.connect(lambda: self.channel_up())
+        self.Channel_Down.clicked.connect(lambda: self.channel_down())
+        self.MuteButton.clicked.connect(lambda: self.muted())
+        self.Channel_Down.clicked.connect(lambda: self.channel_down())
 
-    def mute(self): #used to mute and unmute via muted variable
-        if self.__status:
-            if self.__muted:
-                self.__muted = False
+        #keypad buttons
+        self.KeypadButton_0.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_1.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_2.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_3.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_4.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_5.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_6.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_7.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_8.clicked.connect(lambda: self.keypad())
+        self.KeypadButton_9.clicked.connect(lambda: self.keypad())
+
+    def keypad(self):
+        pass
+
+    def channel_view(self):
+        if self.status == True:
+            if self.channel == 0:
+                movie = QMovie('animations/crime_scene.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
+
+            elif self.channel == 1:
+                movie = QMovie('animations/nature_doc.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
+
+            elif self.channel == 2:
+                movie = QMovie('animations/hockey.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
+
+            elif self.channel == 3:
+                movie = QMovie('animations/kids_cartoon.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
+
+            elif self.channel == 4:
+                movie = QMovie('animations/talk_show.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
 
             else:
-                self.__muted = True
+                movie = QMovie('animations/static.gif')
+                self.TV_label.setMovie(movie)
+                movie.start()
+        else:
+            pass
+
+    def power(self): #used to turn tv on and off via status variable
+        if self.status == True:
+            self.status = False
+            self.channel_view()
+
+        else:
+            self.status = True
+            self.channel_view()
+
+    def mute(self): #used to mute and unmute via muted variable
+        if self.status:
+            if self.muted:
+                self.muted = False
+
+            else:
+                self.muted = True
 
 
     def channel_up(self): #increase channel value when tv is on, if at max goes to min,
-        if self.__status:
-            if self.__channel == Television.max_channel:
-                self.__channel = Television.min_channel
+        if self.status:
+            if self.channel == Controller.max_channel:
+                self.channel = Controller.min_channel
             else:
-                self.__channel += 1
+                self.channel += 1
 
     def channel_down(self): #decrease channel value when tv is on, if on min goes to max
-        if self.__status:
-            if self.__channel == Television.min_channel:
-                self.__channel = Television.max_channel
+        if self.status:
+            if self.channel == Controller.min_channel:
+                self.channel = Controller.max_channel
             else:
-                self.__channel -= 1
+                self.channel -= 1
 
     def volume_up(self): #increase vol when tv is on, if max stays at max
-        if self.__status:
-            if self.__muted:
-                self.__muted = False
+        if self.status:
+            if self.muted:
+                self.muted = False
 
-            if self.__volume == Television.max_volume:
+            if self.volume == Controller.max_volume:
                 pass
             else:
-                self.__volume += 1
+                self.volume += 1
 
     def volume_down(self): #decrease vol when tv on, if min stays at min
-        if self.__status:
-            if self.__muted:
-                self.__muted = False
-            if self.__volume == Television.min_volume:
+        if self.status:
+            if self.muted:
+                self.muted = False
+            if self.volume == Controller.min_volume:
                 pass
             else:
-                self.__volume -= 1
-
-
-    def __str__(self): #sends status in form of "TV status: Power = [status]. Channel = [channel], Volume = [volume]"
-        return f'TV status: Power = {self.__status}, Channel = {self.__channel}, Volume = {Television.min_volume if self.__muted else self.__volume}'
+                self.volume -= 1
