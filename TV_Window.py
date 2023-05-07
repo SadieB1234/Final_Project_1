@@ -213,7 +213,6 @@ class Ui_MainWindow(object):
         self.PowerButton.setFont(font)
         self.PowerButton.setAutoFillBackground(False)
         self.PowerButton.setIconSize(QtCore.QSize(30, 30))
-        self.PowerButton.setChecked(False)
         self.PowerButton.setObjectName("PowerButton")
 
         self.Vol_Down = QtWidgets.QPushButton(self.RemoteFrame)
@@ -623,6 +622,30 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.KeypadButton_0.clicked.connect(lambda: self.keypad(0))
+        self.KeypadButton_1.clicked.connect(lambda: self.keypad(1))
+        self.KeypadButton_2.clicked.connect(lambda: self.keypad(2))
+        self.KeypadButton_3.clicked.connect(lambda: self.keypad(3))
+        self.KeypadButton_4.clicked.connect(lambda: self.keypad(4))
+        self.KeypadButton_5.clicked.connect(lambda: self.keypad(5))
+        self.KeypadButton_6.clicked.connect(lambda: self.keypad(6))
+        self.KeypadButton_7.clicked.connect(lambda: self.keypad(7))
+        self.KeypadButton_8.clicked.connect(lambda: self.keypad(8))
+        self.KeypadButton_9.clicked.connect(lambda: self.keypad(9))
+
+        self.channel_symbol = QtWidgets.QLabel(self.TV_label)
+        self.channel_symbol.setStyleSheet('background-color: white')
+        font = QtGui.QFont()
+        font.setPointSize(30)
+        font.setBold(True)
+        font.setWeight(70)
+        self.channel_symbol.setText(str(self.channel))
+        self.channel_symbol.setGeometry(6, 319, 25, 25)
+        self.channel_symbol.setAlignment(QtCore.Qt.AlignCenter)
+        self.channel_symbol.setFont(font)
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
