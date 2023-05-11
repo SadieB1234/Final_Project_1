@@ -1,6 +1,9 @@
-from controller import *
+from TV_Class import *
 
-def main():
+def main() -> None:
+    """
+    Function to load window and run TV_Class
+    """
     app = QApplication([])
     window = Controller()
     window.show()

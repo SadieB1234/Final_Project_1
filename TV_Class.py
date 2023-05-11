@@ -1,159 +1,21 @@
-<<<<<<< Updated upstream
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-import sys
-from TV_Window import *
-
-class Controller(QMainWindow, Ui_MainWindow):
-
-=======
-<<<<<<< Updated upstream
-class Television:
->>>>>>> Stashed changes
-    min_volume = 0
-    max_volume = 2
-    min_channel = 0
-    max_channel = 3
-
-
-    def __init__(self, status=False, muted=False, volume=min_volume, channel=min_channel, *args, **kargs):
-        self.status = status
-        self.muted = muted
-        self.volume = volume
-        self.channel = channel
-
-        super().__init__(*args, **kargs)
-        self.setupUi(self)
-
-        self.PowerButton.clicked.connect(lambda: self.power())
-        self.Vol_Up.clicked.connect(lambda: self.volume_up())
-        self.Vol_Down.clicked.connect(lambda: self.volume_down())
-        self.Channel_Up.clicked.connect(lambda: self.channel_up())
-        self.Channel_Down.clicked.connect(lambda: self.channel_down())
-        self.MuteButton.clicked.connect(lambda: self.muted())
-        self.Channel_Down.clicked.connect(lambda: self.channel_down())
-
-        #keypad buttons
-        self.KeypadButton_0.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_1.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_2.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_3.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_4.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_5.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_6.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_7.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_8.clicked.connect(lambda: self.keypad())
-        self.KeypadButton_9.clicked.connect(lambda: self.keypad())
-
-    def keypad(self):
-        pass
-
-    def channel_view(self):
-        if self.status == True:
-            if self.channel == 0:
-                movie = QMovie('animations/crime_scene.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-
-            elif self.channel == 1:
-                movie = QMovie('animations/nature_doc.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-
-            elif self.channel == 2:
-                movie = QMovie('animations/hockey.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-
-            elif self.channel == 3:
-                movie = QMovie('animations/kids_cartoon.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-
-            elif self.channel == 4:
-                movie = QMovie('animations/talk_show.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-
-            else:
-                movie = QMovie('animations/static.gif')
-                self.TV_label.setMovie(movie)
-                movie.start()
-        else:
-            pass
-
-    def power(self): #used to turn tv on and off via status variable
-        if self.status == True:
-            self.status = False
-            self.channel_view()
-
-        else:
-            self.status = True
-            self.channel_view()
-
-    def mute(self): #used to mute and unmute via muted variable
-        if self.status:
-            if self.muted:
-                self.muted = False
-
-            else:
-                self.muted = True
-
-
-    def channel_up(self): #increase channel value when tv is on, if at max goes to min,
-        if self.status:
-            if self.channel == Controller.max_channel:
-                self.channel = Controller.min_channel
-            else:
-                self.channel += 1
-
-    def channel_down(self): #decrease channel value when tv is on, if on min goes to max
-        if self.status:
-            if self.channel == Controller.min_channel:
-                self.channel = Controller.max_channel
-            else:
-                self.channel -= 1
-
-    def volume_up(self): #increase vol when tv is on, if max stays at max
-        if self.status:
-            if self.muted:
-                self.muted = False
-
-            if self.volume == Controller.max_volume:
-                pass
-            else:
-                self.volume += 1
-
-    def volume_down(self): #decrease vol when tv on, if min stays at min
-        if self.status:
-            if self.muted:
-                self.muted = False
-            if self.volume == Controller.min_volume:
-                pass
-            else:
-<<<<<<< Updated upstream
-                self.volume -= 1
-=======
-                self.__volume -= 1
-
-
-    def __str__(self): #sends status in form of "TV status: Power = [status]. Channel = [channel], Volume = [volume]"
-        return f'TV status: Power = {self.__status}, Channel = {self.__channel}, Volume = {Television.min_volume if self.__muted else self.__volume}'
-=======
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtMultimedia import *
-
 import sys
 from TV_Window import *
 
 class Controller(QMainWindow, Ui_MainWindow):
+    """
+    Class representing details for TV ui functionality
+    """
 
-    def __init__(self, status=False, muted=False, *args, **kargs):
-        self.status = status
-        self.muted = muted
+    def __init__(self, *args:tuple, **kargs:tuple) -> None:
+        """
+        Constructor to create initial state of Controller object
+        """
+        self.status = False
+        self.muted = False
         self.volume = 0.5
         self.channel = 0
         self.sound = QSoundEffect()
@@ -161,13 +23,8 @@ class Controller(QMainWindow, Ui_MainWindow):
         super().__init__(*args, **kargs)
         self.setupUi(self)
 
-        self.mute_symbol = QLabel(self)
-        pixmap = QPixmap('animations/mute_symbol.png')
-        scaled_pixmap = pixmap.scaled(30, 30, Qt.IgnoreAspectRatio)
-        self.mute_symbol.setPixmap(scaled_pixmap)
-        self.mute_symbol.move(85, 375)
-        self.mute_symbol.setVisible(False)
-        self.channel_symbol.setVisible(False)
+        #setting functions/lambda of clicking buttons on remote
+        self.channel_symbol.setVisible(False) #False until TV is on
         self.PowerButton.clicked.connect(lambda: self.power())
         self.Vol_Up.clicked.connect(lambda: self.volume_up())
         self.Vol_Down.clicked.connect(lambda: self.volume_down())
@@ -175,22 +32,39 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.Channel_Down.clicked.connect(lambda: self.channel_down())
         self.MuteButton.clicked.connect(lambda: self.mute())
 
-    def keypad(self,num):
-        if self.status == True:
+        #setting functions of each keypad button
+        self.KeypadButton_0.clicked.connect(lambda: self.keypad(0))
+        self.KeypadButton_1.clicked.connect(lambda: self.keypad(1))
+        self.KeypadButton_2.clicked.connect(lambda: self.keypad(2))
+        self.KeypadButton_3.clicked.connect(lambda: self.keypad(3))
+        self.KeypadButton_4.clicked.connect(lambda: self.keypad(4))
+        self.KeypadButton_5.clicked.connect(lambda: self.keypad(5))
+        self.KeypadButton_6.clicked.connect(lambda: self.keypad(6))
+        self.KeypadButton_7.clicked.connect(lambda: self.keypad(7))
+        self.KeypadButton_8.clicked.connect(lambda: self.keypad(8))
+        self.KeypadButton_9.clicked.connect(lambda: self.keypad(9))
+
+    def keypad(self,num:int) -> None:
+        """
+        Function for changing the channel (self.channel) via the keypad buttons
+        :param num: num of channel that matches keypad num
+        """
+        if self.status == True: #checking if TV is on
             self.channel = num
             self.channel_view()
 
-    def channel_view(self):
-        if self.status == True:
+    def channel_view(self) -> None:
+        """
+        Function for controlling/changing the tv screen view, does the animation
+        for each channel and the sound associated with each adn clears the screen if power is off
+        """
+        if self.status == True: #checking if TV is on
             if self.channel == 1: #crime show
                 movie = QMovie('animations/crime_scene.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.sound.setSource(QtCore.QUrl.fromLocalFile('noise/crimescene_noise.wav'))
                 self.sound.setLoopCount(-2)  # infinite looping
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
 
             elif self.channel == 2: #documentary
                 self.sound.setSource(QtCore.QUrl.fromLocalFile('noise/documentary_noise.wav'))
@@ -198,9 +72,6 @@ class Controller(QMainWindow, Ui_MainWindow):
                 movie = QMovie('animations/nature_doc.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
 
             elif self.channel == 3: #sports
                 self.sound.setSource(QUrl.fromLocalFile('noise/hockey_noise.wav')) #link to sound
@@ -208,9 +79,6 @@ class Controller(QMainWindow, Ui_MainWindow):
                 movie = QMovie('animations/hockey.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
 
             elif self.channel == 5: #kids cartoon
                 self.sound.setSource(QUrl.fromLocalFile('noise/cartoon_noise.wav'))
@@ -218,9 +86,6 @@ class Controller(QMainWindow, Ui_MainWindow):
                 movie = QMovie('animations/kids_cartoon.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
 
             elif self.channel == 7: #talkshow
                 self.sound.setSource(QUrl.fromLocalFile('noise/talkshow_noise.wav'))
@@ -228,9 +93,6 @@ class Controller(QMainWindow, Ui_MainWindow):
                 movie = QMovie('animations/talk_show.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
 
             else: #static rainbow
                 self.sound.setSource(QUrl.fromLocalFile('noise/static_noise.wav'))
@@ -238,16 +100,22 @@ class Controller(QMainWindow, Ui_MainWindow):
                 movie = QMovie('animations/static.gif')
                 movie.setScaledSize(QSize(441, 351))  # sets to size of frame
                 self.TV_label.setMovie(movie)
-                movie.start()
-                if self.muted == False:
-                    self.sound.play()
+            #for every channel
+            movie.start()
             self.channel_symbol.setText(str(self.channel))
+            if self.muted == False:  # checking if unmuted
+                self.sound.play()
+
         else:
             self.sound.stop()
-            self.TV_label.clear()
+            self.TV_label.clear() #makes screen black
 
-    def power(self): #used to turn tv on and off via status variable
-        if self.status == True:
+    def power(self) -> None:
+        """
+        Function for turning TV on and off, off if self.status is False and on if self.status is True
+        :return:
+        """
+        if self.status == True: #checking if TV is on
             self.status = False
             self.mute_symbol.setVisible(False)
             self.channel_symbol.setVisible(False)
@@ -261,18 +129,27 @@ class Controller(QMainWindow, Ui_MainWindow):
             self.channel_symbol.setVisible(True)
             self.channel_view()
 
-    def channel_up(self): #increase channel value when tv is on, if at max goes to min,
-        if self.status:
+    def channel_up(self) -> None:
+        """
+        Function to increase channel value when TV is on (self.status == True)
+        """
+        if self.status: #checking if TV is on
             self.channel += 1
             self.channel_view()
 
-    def channel_down(self): #decrease channel value when tv is on, if on min goes to max
-        if self.status:
+    def channel_down(self) -> None:
+        """
+        Function to decrease channel value when TV is on (self.status == True)
+        """
+        if self.status: #checking if TV is on
            self.channel -= 1
            self.channel_view()
 
-    def mute(self): #used to mute and unmute via muted variable
-        if self.status:
+    def mute(self) -> None:
+        """
+        Function to mute and unmute the TV sound when TV is on (self.status == True)
+        """
+        if self.status: #checking if TV is on
             if self.muted:
                 self.muted = False
                 self.sound.setVolume(self.volume)
@@ -283,18 +160,21 @@ class Controller(QMainWindow, Ui_MainWindow):
                 self.sound.setVolume(0)
                 self.mute_symbol.setVisible(True)
 
-    def volume_up(self): #increase vol when tv is on, if max stays at max
-        if self.status:
-            if self.muted != True:
+    def volume_up(self) -> None:
+        """
+        Function to increase volume when TV is on (self.status == True) dnd unmuted (self.muted == False)
+        """
+        if self.status: #checking if TV is on
+            if self.muted != True: #doesnt change volume if muted
                 self.volume += .1
                 self.sound.setVolume(self.volume)
 
-    def volume_down(self): #decrease vol when tv on, if min stays at min
-        if self.status:
-            if self.muted != True:
+    def volume_down(self) -> None:
+        """
+        Function to decrease volume when TV is on (self.status == True) dnd unmuted (self.muted == False)
+        """
+        if self.status: #checking if TV is on
+            if self.muted != True: #doesnt change volume if muted
                 self.volume -= .1
                 self.sound.setVolume(self.volume)
 
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes

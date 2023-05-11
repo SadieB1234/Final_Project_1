@@ -10,10 +10,22 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QMovie
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtMultimedia import *
+import sys
 
 
 class Ui_MainWindow(object):
+    """
+    Class representing details for TV ui
+    """
     def setupUi(self, MainWindow):
+        """
+        Constructor to create initial state of UI_MainWindow object
+        """
+        #mainwindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(824, 629)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -45,7 +57,7 @@ class Ui_MainWindow(object):
         self.RemoteFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.RemoteFrame.setObjectName("RemoteFrame")
 
-
+        #powerbutton
         self.PowerButton = QtWidgets.QPushButton(self.RemoteFrame)
         self.PowerButton.setGeometry(QtCore.QRect(30, 30, 161, 51))
         self.PowerButton.setMinimumSize(QtCore.QSize(161, 51))
@@ -215,6 +227,7 @@ class Ui_MainWindow(object):
         self.PowerButton.setIconSize(QtCore.QSize(30, 30))
         self.PowerButton.setObjectName("PowerButton")
 
+        #volume down button
         self.Vol_Down = QtWidgets.QPushButton(self.RemoteFrame)
         self.Vol_Down.setGeometry(QtCore.QRect(170, 150, 41, 51))
         font = QtGui.QFont()
@@ -226,6 +239,8 @@ class Ui_MainWindow(object):
         self.buttonGroup = QtWidgets.QButtonGroup(MainWindow)
         self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.Vol_Down)
+
+        #volume up button
         self.Vol_Up = QtWidgets.QPushButton(self.RemoteFrame)
         self.Vol_Up.setGeometry(QtCore.QRect(170, 100, 41, 51))
         font = QtGui.QFont()
@@ -235,6 +250,8 @@ class Ui_MainWindow(object):
         self.Vol_Up.setFont(font)
         self.Vol_Up.setObjectName("Vol_Up")
         self.buttonGroup.addButton(self.Vol_Up)
+
+        #channel down button
         self.Channel_Down = QtWidgets.QPushButton(self.RemoteFrame)
         self.Channel_Down.setGeometry(QtCore.QRect(170, 290, 41, 51))
         font = QtGui.QFont()
@@ -246,6 +263,8 @@ class Ui_MainWindow(object):
         self.buttonGroup_2 = QtWidgets.QButtonGroup(MainWindow)
         self.buttonGroup_2.setObjectName("buttonGroup_2")
         self.buttonGroup_2.addButton(self.Channel_Down)
+
+        #channel up button
         self.Channel_Up = QtWidgets.QPushButton(self.RemoteFrame)
         self.Channel_Up.setGeometry(QtCore.QRect(170, 240, 41, 51))
         font = QtGui.QFont()
@@ -256,6 +275,7 @@ class Ui_MainWindow(object):
         self.Channel_Up.setObjectName("Channel_Up")
         self.buttonGroup_2.addButton(self.Channel_Up)
 
+        #all keypad buttons
         self.KeypadButton_0 = QtWidgets.QPushButton(self.RemoteFrame)
         self.KeypadButton_0.setGeometry(QtCore.QRect(60, 300, 51, 51))
         font = QtGui.QFont()
@@ -355,6 +375,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
 
+        #mute button
         self.MuteButton.setFont(font)
         self.MuteButton.setObjectName("MuteButton")
         self.label_vol = QtWidgets.QLabel(self.RemoteFrame)
@@ -369,6 +390,8 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+
+        #volume label
         self.label_vol.setPalette(palette)
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -377,6 +400,8 @@ class Ui_MainWindow(object):
         self.label_vol.setFont(font)
         self.label_vol.setAlignment(QtCore.Qt.AlignCenter)
         self.label_vol.setObjectName("label_vol")
+
+        #channel label
         self.label_channel = QtWidgets.QLabel(self.RemoteFrame)
         self.label_channel.setGeometry(QtCore.QRect(160, 220, 60, 16))
         palette = QtGui.QPalette()
@@ -398,6 +423,7 @@ class Ui_MainWindow(object):
         self.label_channel.setAlignment(QtCore.Qt.AlignCenter)
         self.label_channel.setObjectName("label_channel")
 
+        #tv frame
         self.TVFrame = QtWidgets.QFrame(self.centralwidget)
         self.TVFrame.setGeometry(QtCore.QRect(30, 40, 481, 391))
         palette = QtGui.QPalette()
@@ -425,6 +451,7 @@ class Ui_MainWindow(object):
         self.TVFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.TVFrame.setObjectName("TVFrame")
 
+        #tv label
         self.TV_label = QtWidgets.QLabel(self.TVFrame)
         self.TV_label.setGeometry(QtCore.QRect(20, 20, 441, 351))
         palette = QtGui.QPalette()
@@ -604,6 +631,7 @@ class Ui_MainWindow(object):
         self.TV_label.setText("")
         self.TV_label.setObjectName("TV_label")
 
+        #menubar and statusbar
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 824, 22))
@@ -613,6 +641,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        #actions
         self.actionVolume = QtWidgets.QAction(MainWindow)
         self.actionVolume.setObjectName("actionVolume")
         self.actionChannel = QtWidgets.QAction(MainWindow)
@@ -623,17 +652,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.KeypadButton_0.clicked.connect(lambda: self.keypad(0))
-        self.KeypadButton_1.clicked.connect(lambda: self.keypad(1))
-        self.KeypadButton_2.clicked.connect(lambda: self.keypad(2))
-        self.KeypadButton_3.clicked.connect(lambda: self.keypad(3))
-        self.KeypadButton_4.clicked.connect(lambda: self.keypad(4))
-        self.KeypadButton_5.clicked.connect(lambda: self.keypad(5))
-        self.KeypadButton_6.clicked.connect(lambda: self.keypad(6))
-        self.KeypadButton_7.clicked.connect(lambda: self.keypad(7))
-        self.KeypadButton_8.clicked.connect(lambda: self.keypad(8))
-        self.KeypadButton_9.clicked.connect(lambda: self.keypad(9))
-
+        #channel symbol
         self.channel_symbol = QtWidgets.QLabel(self.TV_label)
         self.channel_symbol.setStyleSheet('background-color: white')
         font = QtGui.QFont()
@@ -645,9 +664,21 @@ class Ui_MainWindow(object):
         self.channel_symbol.setAlignment(QtCore.Qt.AlignCenter)
         self.channel_symbol.setFont(font)
 
+        #mute symbol
+        self.mute_symbol = QtWidgets.QLabel(self)
+        pixmap = QPixmap('animations/mute_symbol.png')
+        scaled_pixmap = pixmap.scaled(30, 30, Qt.IgnoreAspectRatio)
+        self.mute_symbol.setPixmap(scaled_pixmap)
+        self.mute_symbol.move(85, 375)
+        self.mute_symbol.setVisible(False)
 
 
     def retranslateUi(self, MainWindow):
+        '''
+        Function for setting up translation options, automatic from QT Designer
+        :param MainWindow: window its translating
+        :return: translated window
+        '''
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "TV"))
         self.PowerButton.setText(_translate("MainWindow", "POWER"))
