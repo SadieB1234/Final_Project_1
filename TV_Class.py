@@ -141,8 +141,12 @@ class Controller(QMainWindow, Ui_MainWindow):
         Function to decrease channel value when TV is on (self.status == True)
         """
         if self.status: #checking if TV is on
-           self.channel -= 1
-           self.channel_view()
+           if self.channel - 1 > 0:
+               self.channel -= 1
+           else:
+               self.channel = 0
+
+        self.channel_view()
 
     def mute(self) -> None:
         """
