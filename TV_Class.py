@@ -103,8 +103,7 @@ class Controller(QMainWindow, Ui_MainWindow):
             #for every channel
             movie.start()
             self.channel_symbol.setText(str(self.channel))
-            if self.muted == False:  # checking if unmuted
-                self.sound.play()
+            self.sound.play()
 
         else:
             self.sound.stop()
